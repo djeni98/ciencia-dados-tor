@@ -92,3 +92,23 @@ Então, por enquanto:
         'flow_bytes/s', 'flow_packets/s',
         'active_mean', 'active_std', 'active_max', 'active_min',
         'idle_mean', 'idle_std', 'idle_max', 'idle_min'
+
+## Extração de Características
+
+A partir das colunas selecionadas no precesso de exploração, analisei a correlação entre as variáveis. Com isso pude perceber que existiam atributos altamente correlacionados e que poderiam ser ignorados. São eles:
+
+- Flow_iat_mean
+- Flow_iat_std
+- Flow_iat_max
+- Flow_iat_min
+- Fwd_iat_mean
+- Fwd_iat_std
+- Bwd_iat_mean
+- Bwd_iat_std
+
+Desta forma, as colunas que vão ser usadas no processo de machine learning são:
+
+       'protocol', 'flow_duration',
+       'fwd_iat_max', 'fwd_iat_min',
+       'bwd_iat_max', 'bwd_iat_min',
+       'label'

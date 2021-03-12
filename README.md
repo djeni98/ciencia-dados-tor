@@ -5,6 +5,8 @@ Link: https://www.unb.ca/cic/datasets/tor.html
 
 Arquivo usado: SelectedFeatures-10s-TOR-NonTOR.csv
 
+**Objetivo:** A partir de amostras de fluxos de 10 segundos de uma rede encriptada, conseguir classificar esse fluxo como Tor ou Não-Tor.
+
 <details><summary>Colunas: 29</summary>
 
 - Source IP
@@ -51,31 +53,22 @@ Legendas:
 
 ## Exploração de Dados
 
-### 1. Que tipo de dados você tem, majoritariamente (atributos numéricos, textuais)?
-Numéricos. Das 29 colunas, 3 são strings: `source_ip`, `destination_ip` e `label`.
+<a href="https://colab.research.google.com/github/djeni98/ciencia-dados-tor/blob/master/exploracao.ipynb" target="_blank"><img alt="Colab - Exploração de Dados" src="https://img.shields.io/badge/Open%20in%20Colab-grey?logo=google-colab" /></a>
 
-### 2. Qual seu objetivo com esse dataset?
-A partir de amostras de fluxos de 10 segundos de uma rede encriptada, conseguir classificar esse fluxo como Tor ou Não-Tor.
+Pontos observados na exploração:
+- Dados majoritariamente numéricos. Das 29 colunas, 3 são strings: `source_ip`, `destination_ip` e `label`.
+- O dataset é mal distribuido
 
-### 3. Seu dataset é rotulado de que maneira?
-nonTOR, TOR
-
-### 4. Como é a distribuição dos dados do dataset?
 |       | frequência  |porcentagem|
 |---|---|---|
 |nonTOR |      59784  |   0.881406|
 |TOR    |       8044  |   0.118594|
 
 
-### 5. Quais colunas/atributos você julga ser interessante manter e remover? Por quê?
-
-As colunas de IP (origem e destino) são atributos textuais e acredito que não faça sentido transformá-los em números. O que é possível fazer é substituir essas colunas por um indicativo de endereço ip privado, mas não acho que seja muito produtivo.
-
-O mesmo vale pras colunas de porta, mesmo diferenciando por portas "bem conhecidas ou de sistema" que ficam no intervalo [0, 1024).
-
-Como o TOR não usa o protocolo UDP, pode ser interessante usar isso na classificação. A única alteração que precisa ser feita é no tipo que é numérico, mas deveria ser um atributo categórico.
-
-As colunas de fluxo parecem ser as mais relevantes, exceto as `flow_bytes/s` e `flow_packets/s`. Já as colunas que envolvem o tempo de idle e atividade não aparentam ser relevantes, como mostram os gráficos.
+- As colunas de IP (origem e destino) são atributos textuais e acredito que não faça sentido transformá-los em números. O que é possível fazer é substituir essas colunas por um indicativo de endereço ip privado, mas não acho que seja muito produtivo.
+- O mesmo vale pras colunas de porta, mesmo diferenciando por portas "bem conhecidas ou de sistema" que ficam no intervalo [0, 1024).
+- Como o TOR não usa o protocolo UDP, pode ser interessante usar isso na classificação. A única alteração que precisa ser feita é no tipo que é numérico, mas deveria ser um atributo categórico.
+- As colunas de fluxo parecem ser as mais relevantes, exceto as `flow_bytes/s` e `flow_packets/s`. Já as colunas que envolvem o tempo de idle e atividade não aparentam ser relevantes, como mostram os gráficos.
 
 Então, por enquanto:
 
@@ -94,6 +87,8 @@ Então, por enquanto:
         'idle_mean', 'idle_std', 'idle_max', 'idle_min'
 
 ## Extração de Características
+
+<a href="https://colab.research.google.com/github/djeni98/ciencia-dados-tor/blob/master/extracao_caracteristicas.ipynb" target="_blank"><img alt="Colab - Extração de Características" src="https://img.shields.io/badge/Open%20in%20Colab-grey?logo=google-colab" /></a>
 
 A partir das colunas selecionadas no precesso de exploração, analisei a correlação entre as variáveis. Com isso pude perceber que existiam atributos altamente correlacionados e que poderiam ser ignorados. São eles:
 

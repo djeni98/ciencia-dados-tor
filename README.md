@@ -107,3 +107,34 @@ Desta forma, as colunas que vão ser usadas no processo de machine learning são
        'fwd_iat_max', 'fwd_iat_min',
        'bwd_iat_max', 'bwd_iat_min',
        'label'
+
+## Machine Learning
+
+<a href="https://colab.research.google.com/github/djeni98/ciencia-dados-tor/blob/master/Projeto Final.ipynb" target="_blank"><img alt="Colab - Extração de Características" src="https://img.shields.io/badge/Open%20in%20Colab-grey?logo=google-colab" /></a>
+
+A partir da [especificação](especificacao.md) do projeto final, foram feitos treinamento e testes com 4 modelos diferentes de machine learning: KNN, Random Forest, SVM e Perceptron.
+
+Poucos parâmetros foram alterados em cada modelo, dado que algumas alterações não faziam diferença. No entanto, teve um parâmetro muito importante para melhora do desempenho do SVM, o `class_weight`, pois ele serve justamente para datasets desbalanceados.
+
+### Conclusões
+
+Olhando a grosso modo, o Random Forest parece a melhor solução para classificar tráfegos TOR-nonTOR:
+- Tem a melhor precisão
+- Menor erro
+- Maior área sob a curva ROC.
+
+No entanto, o dataset de teste tem muito mais amostras nonTOR do que TOR, que é justamente onde o Random Forest tem a melhor taxa de acerto.
+
+Logo, num ambiente onde sabemos que o tráfego em sua maioria não usa TOR, o Random Forest é a solução ideal.
+
+Agora, o algoritmo que tem a melhor taxa de acerto nas amostras TOR é o SVM. Dá pra perceber que a sua precisão não foi muito boa, mas acredito que isso seja resultado do dataset desbalanceado.
+
+Outra desvantagem do SVM é o tempo de treino. Portanto, se for necessário ficar retreinando o modelo, talvez seja melhor ficar com Random Forest mesmo.
+
+#### Em Resumo
+- Usar o modelo **Random Forest** quando:
+    - Se espera acertar mais detecção de tráfego nonTOR
+    - Sem tempo para treino e/ou retreino
+    - Necessidade de detecção executada na casa de milisegundos
+- Usar o modelo **SVM** quando:
+    - Se espera acertar mais detecção de tráfego TOR
